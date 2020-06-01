@@ -7,19 +7,23 @@ import {MatInputModule} from '@angular/material/input'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputComponent } from './common/input/input.component';
 import { PlanetsComponent } from './planets/planets.component';
+import { CardComponent } from './common/card.component';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
     AppComponent,
     InputComponent,
-    PlanetsComponent
+    PlanetsComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSliderModule,
-    MatInputModule
+    MatInputModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
