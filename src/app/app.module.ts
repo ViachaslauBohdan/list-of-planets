@@ -9,6 +9,7 @@ import { InputComponent } from './common/input/input.component';
 import { PlanetsComponent } from './planets/planets.component';
 import { CardComponent } from './common/card.component';
 import {MatCardModule} from '@angular/material/card';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {MatCardModule} from '@angular/material/card';
     BrowserAnimationsModule,
     MatSliderModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

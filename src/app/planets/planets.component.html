@@ -2,6 +2,8 @@
   <div class="input">
     <app-input></app-input>
 
-    <app-card></app-card>
+    <div *ngFor="planet of planets" class="card">
+      <app-card></app-card>
+    </div>
   </div>
 </div>
