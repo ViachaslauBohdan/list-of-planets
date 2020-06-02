@@ -1,9 +1,9 @@
 <div class="pln-container">
   <div class="input">
-    <app-input></app-input>
+    <app-input (passPlanet)="getPlanets($event)"></app-input>
 
-    <div *ngFor="planet of planets" class="card">
-      <app-card></app-card>
+    <div *ngFor="let planet of planets" class="card">
+      <app-card [planet]="planet"></app-card>
     </div>
   </div>
 </div>

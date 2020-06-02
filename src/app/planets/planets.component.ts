@@ -24,4 +24,12 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
     })
   }
 
+  getPlanets(text: string): void {
+    this.plnService.searchPlanets(text)
+    .subscribe((data: PlanetsResponse) => {
+      console.log(data)
+      this.planets = data.results
+    })
+  }
+
 }

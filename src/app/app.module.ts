@@ -7,9 +7,10 @@ import {MatInputModule} from '@angular/material/input'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputComponent } from './common/input/input.component';
 import { PlanetsComponent } from './planets/planets.component';
-import { CardComponent } from './common/card.component';
+import { CardComponent } from './common/card/card.component';
 import {MatCardModule} from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     MatSliderModule,
     MatInputModule,
+    FormsModule,
     MatCardModule,
     HttpClientModule
   ],

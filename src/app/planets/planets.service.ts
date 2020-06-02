@@ -15,4 +15,7 @@ export class PlanetsService {
   getPlanets() {
     return this.http.get<PlanetsResponse>(this.base)
   }
+  searchPlanets(text: string) {
+    return this.http.get<PlanetsResponse>(`${this.base}?search=${text}`)
+  }
 }
