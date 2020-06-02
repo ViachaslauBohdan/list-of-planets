@@ -15,7 +15,6 @@ export class CardComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log(this.planet)
   }
 
 }

@@ -15,21 +15,17 @@ import {
 })
 export class InputComponent implements OnInit {
   @ViewChild('planetInput', { static: true }) planetInput: ElementRef;
-  @Output() passPlanet = new EventEmitter<string>()
+  @Output() searchPlanet = new EventEmitter<string>()
 
   constructor() { }
 
   ngOnInit(): void {
     fromEvent(this.planetInput.nativeElement, 'keyup').pipe(
-      map((event:any) => {
-        return event.target.value
-      })
-      // , filter(value => value.length > 0)
+      map((event:any) =>  event.target.value)
       , debounceTime(1000)
       , distinctUntilChanged()
     ).subscribe((text: string) => {
-      console.log(text)
-      this.passPlanet.emit(text)
+      this.searchPlanet.emit(text)
     })
   }
 

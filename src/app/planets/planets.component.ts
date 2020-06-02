@@ -10,6 +10,7 @@ import { PlanetsResponse, Planet } from './planets.interface';
 export class PlanetsComponent implements OnInit, AfterViewInit {
 
   planets: Planet[] = []
+  data: PlanetsResponse
 
   constructor(private plnService: PlanetsService) { }
 
@@ -19,15 +20,16 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.plnService.getPlanets()
     .subscribe((data: PlanetsResponse) => {
-      console.log(data)
-      this.planets = data.results
+      // console.log(data)
+      // this.planets = data.results
     })
   }
 
-  getPlanets(text: string): void {
+  searchPlanets(text: string): void {
     this.plnService.searchPlanets(text)
     .subscribe((data: PlanetsResponse) => {
       console.log(data)
+      this.data = data
       this.planets = data.results
     })
   }
