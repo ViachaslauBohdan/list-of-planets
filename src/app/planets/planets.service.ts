@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { PlanetsResponse } from './planets.interface';
+import { PlanetsResponse, Planet } from './planets.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,9 @@ export class PlanetsService {
 
   getPlanets() {
     return this.http.get<PlanetsResponse>(this.base)
+  }
+  getPlanet(id: string) {
+    return this.http.get<Planet>(`${this.base}${id}`)
   }
   searchPlanets(text: string) {
     return this.http.get<PlanetsResponse>(`${this.base}?search=${text}`)

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { PlanetsService } from '../planets.service';
+import { ActivatedRoute } from '@angular/router';
+import { Planet } from '../planets.interface';
 
 @Component({
   selector: 'app-planet-details',
@@ -6,10 +9,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./planet-details.component.sass']
 })
 export class PlanetDetailsComponent implements OnInit {
-
-  constructor() { }
+  planet: Planet
+  constructor(
+    private route: ActivatedRoute,
+    private plnService: PlanetsService
+  ) { }
 
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.plnService.getPlanet(id)
+    .subscribe((planet: Planet) => {
+      this.planet = planet
+    })
   }
 
 }
