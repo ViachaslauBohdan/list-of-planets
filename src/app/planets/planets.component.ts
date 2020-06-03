@@ -41,6 +41,8 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
   viewPlanetDetails(planet: Planet): void {
     const planetId = planet.url.split('/')[5]
     this.router.navigate([`planet/${planetId}`])
+
+    this.plnService.activePlanet.next(planet)
   }
 
 }

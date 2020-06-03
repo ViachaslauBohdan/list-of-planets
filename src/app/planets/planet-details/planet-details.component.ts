@@ -16,11 +16,19 @@ export class PlanetDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.plnService.getPlanet(id)
-    .subscribe((planet: Planet) => {
+    this.plnService.activePlanet.subscribe((planet:Planet) => {
+      console.log(planet)
+
       this.planet = planet
     })
+
+    if (!this.planet) {
+      const id = this.route.snapshot.paramMap.get('id');
+      this.plnService.getPlanet(id)
+      .subscribe((planet: Planet) => {
+        this.planet = planet
+      })
+    }
   }
 
 }

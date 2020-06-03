@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { PlanetsResponse, Planet } from './planets.interface';
 
@@ -9,6 +9,10 @@ import { PlanetsResponse, Planet } from './planets.interface';
 })
 export class PlanetsService {
   private readonly base = 'http://0.0.0.0:8080/api/planets/'
+
+  planetsSharedData: BehaviorSubject<any> = new BehaviorSubject({})
+  activePlanet: BehaviorSubject<any> = new BehaviorSubject(null)
+
 
   constructor(private http: HttpClient) { }
 
