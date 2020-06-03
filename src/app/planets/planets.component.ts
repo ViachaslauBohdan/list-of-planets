@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import {Router} from '@angular/router'
 import { PlanetsService } from './planets.service';
 import { PlanetsResponse, Planet } from './planets.interface';
 
@@ -12,7 +13,10 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
   planets: Planet[] = []
   data: PlanetsResponse
 
-  constructor(private plnService: PlanetsService) { }
+  constructor(
+    private plnService: PlanetsService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
   }
@@ -32,6 +36,11 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
       this.data = data
       this.planets = data.results
     })
+  }
+
+  viewPlanetDetails(planet: Planet): void {
+    const planetId = planet.url.split('/')[5]
+    this.router.navigate([`planet/${planetId}`])
   }
 
 }

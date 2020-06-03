@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { PaginatorComponent } from './common/pagination/paginator.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { PlanetDetailsComponent } from './planets/planet-details/planet-details.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     InputComponent,
     PlanetsComponent,
     CardComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    PlanetDetailsComponent
   ],
   imports: [
     BrowserModule,

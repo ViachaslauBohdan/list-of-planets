@@ -4,7 +4,7 @@
 
     <app-paginator [length]="data?.count || 60"></app-paginator>
     <div *ngFor="let planet of planets" class="card">
-      <app-card [planet]="planet"></app-card>
+      <app-card (click)="viewPlanetDetails(planet)" [planet]="planet"></app-card>
     </div>
   </div>
 </div>

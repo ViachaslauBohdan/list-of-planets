@@ -21,9 +21,9 @@ export class InputComponent implements OnInit {
 
   ngOnInit(): void {
     fromEvent(this.planetInput.nativeElement, 'keyup').pipe(
-      map((event:any) =>  event.target.value)
-      , debounceTime(1000)
-      , distinctUntilChanged()
+      map((event:any) =>  event.target.value),
+      debounceTime(1000),
+      distinctUntilChanged()
     ).subscribe((text: string) => {
       this.searchPlanet.emit(text)
     })
