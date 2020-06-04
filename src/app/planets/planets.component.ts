@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import {Router} from '@angular/router'
 import { PlanetsService } from './planets.service';
 import { PlanetsResponse, Planet } from './planets.interface';
+import { PageEvent } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-planets',
@@ -9,6 +11,7 @@ import { PlanetsResponse, Planet } from './planets.interface';
   styleUrls: ['./planets.component.sass']
 })
 export class PlanetsComponent implements OnInit, AfterViewInit {
+  toFirstPage: Subject<boolean> = new Subject()
 
   planets: Planet[] = []
   data: PlanetsResponse
@@ -22,15 +25,11 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.plnService.getPlanets()
-    .subscribe((data: PlanetsResponse) => {
-      // console.log(data)
-      // this.planets = data.results
-    })
+    this.searchPlanets('')
   }
 
-  searchPlanets(text: string): void {
-    this.plnService.searchPlanets(text)
+  searchPlanets(text?: string, url?: string): void {
+    this.plnService.searchPlanets(text,url)
     .subscribe((data: PlanetsResponse) => {
       console.log(data)
       this.data = data
@@ -43,6 +42,15 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
     this.router.navigate([`planet/${planetId}`])
 
     this.plnService.activePlanet.next(planet)
+  }
+
+  pagerAction($event: PageEvent): void {
+    console.log($event)
+
+    const url = $event.pageIndex > $event.previousPageIndex ? this.data.next : this.data.previous
+
+    console.log(url,'url')
+    this.searchPlanets(null, url)
   }
 
 }

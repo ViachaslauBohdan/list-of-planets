@@ -22,7 +22,7 @@ export class PlanetsService {
   getPlanet(id: string) {
     return this.http.get<Planet>(`${this.base}${id}`)
   }
-  searchPlanets(text: string) {
-    return this.http.get<PlanetsResponse>(`${this.base}?search=${text}`)
+  searchPlanets(text?: string, url?: string) {
+    return this.http.get<PlanetsResponse>(url || `${this.base}?search=${text}`)
   }
 }

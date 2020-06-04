@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PlanetsService } from '../planets.service';
 import { ActivatedRoute } from '@angular/router';
 import { Planet } from '../planets.interface';
@@ -8,7 +8,7 @@ import { Planet } from '../planets.interface';
   templateUrl: './planet-details.component.html',
   styleUrls: ['./planet-details.component.sass']
 })
-export class PlanetDetailsComponent implements OnInit {
+export class PlanetDetailsComponent implements OnInit, OnDestroy {
   planet: Planet
   constructor(
     private route: ActivatedRoute,
@@ -23,12 +23,20 @@ export class PlanetDetailsComponent implements OnInit {
     })
 
     if (!this.planet) {
-      const id = this.route.snapshot.paramMap.get('id');
-      this.plnService.getPlanet(id)
-      .subscribe((planet: Planet) => {
-        this.planet = planet
-      })
+      this.getPlanetById()
     }
+  }
+
+  private getPlanetById(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    this.plnService.getPlanet(id)
+    .subscribe((planet: Planet) => {
+      this.planet = planet
+    })
+  }
+
+  ngOnDestroy(): void {
+    // this.plnService.activePlanet.unsubscribe()
   }
 
 }
