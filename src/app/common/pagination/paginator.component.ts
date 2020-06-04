@@ -10,19 +10,18 @@ import { Subject } from 'rxjs';
 export class PaginatorComponent implements OnInit {
   @ViewChild('paginator') paginator: MatPaginator;
   @Input() length: number
-  @Input() toFirstPage: Subject<boolean>
+  // @Input() toFirstPage: Subject<boolean>
+  @Input() pageIndex: number
   @Output() onPagerAction = new EventEmitter<PageEvent>()
   constructor() { }
 
   pagerAction($event):void {
-
-    this.onPagerAction.emit($event)
+    if ($event.pageIndex > 0) {
+      this.onPagerAction.emit($event)
+    }
   }
   ngOnInit(): void {
-    // setInterval(()=>{console.log(this.pageIndex)},1000)
-    // this.toFirstPage.subscribe(v => {
-    //   if(v) this.resetPager()
-    // })
+
   }
 
   resetPager(): void {
