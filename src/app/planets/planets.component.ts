@@ -29,7 +29,17 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
     this.searchPlanets('')
   }
 
-  searchPlanets(text?: string, url?: string): void {
+  inputAction(text: string): void {
+    this.searchPlanets(text)
+    this.paginator.resetPager()
+  }
+
+  pagerAction($event: PageEvent): void {
+    const url = $event.pageIndex > $event.previousPageIndex ? this.data.next : this.data.previous
+    this.searchPlanets(null, url)
+  }
+
+  private searchPlanets(text?: string, url?: string): void {
     this.plnService.searchPlanets(text,url)
     .subscribe((data: PlanetsResponse) => {
       this.data = data
@@ -44,13 +54,5 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
     this.plnService.activePlanet.next(planet)
   }
 
-  inputAction(): void {
-    this.paginator.resetPager()
-  }
-
-  pagerAction($event: PageEvent): void {
-    const url = $event.pageIndex > $event.previousPageIndex ? this.data.next : this.data.previous
-    this.searchPlanets(null, url)
-  }
 
 }

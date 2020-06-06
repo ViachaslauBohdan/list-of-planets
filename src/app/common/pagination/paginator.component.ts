@@ -12,10 +12,13 @@ export class PaginatorComponent implements OnInit {
   @Input() length: number
   @Output() onPagerAction = new EventEmitter<PageEvent>()
 
-  private skipAction = false;
+  private skipAction: boolean = false;
   private event: PageEvent
+
   constructor() { }
 
+  ngOnInit(): void {
+  }
   pagerAction($event):void {
     this.event = $event
     if (!this.skipAction) {
@@ -23,8 +26,6 @@ export class PaginatorComponent implements OnInit {
     } else {
       this.skipAction = false
     }
-  }
-  ngOnInit(): void {
   }
 
   resetPager(): void {

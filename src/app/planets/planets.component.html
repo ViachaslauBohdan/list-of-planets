@@ -1,6 +1,6 @@
 <div class="pln-container">
   <div class="input">
-    <app-input (searchPlanet)="searchPlanets($event); inputAction()"></app-input>
+    <app-input (searchPlanet)="inputAction($event)"></app-input>
 
     <app-paginator [length]="data?.count || 0" (onPagerAction)="pagerAction($event)"></app-paginator>
     <div *ngFor="let planet of planets" class="card">
