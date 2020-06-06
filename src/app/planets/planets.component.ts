@@ -26,7 +26,6 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.paginator)
     this.searchPlanets('')
   }
 
@@ -45,12 +44,11 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
     this.plnService.activePlanet.next(planet)
   }
 
-  resetPager(): void {
+  inputAction(): void {
     this.paginator.resetPager()
   }
 
   pagerAction($event: PageEvent): void {
-    console.log($event, 'pagerAction')
     const url = $event.pageIndex > $event.previousPageIndex ? this.data.next : this.data.previous
     this.searchPlanets(null, url)
   }
