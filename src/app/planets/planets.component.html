@@ -1,10 +1,17 @@
 <div class="pln-container">
-  <div class="input">
-    <app-input (searchPlanet)="inputAction($event)"></app-input>
 
-    <app-paginator [length]="data?.count || 0" (onPagerAction)="pagerAction($event)"></app-paginator>
-    <div *ngFor="let planet of planets" class="card">
-      <app-card (click)="viewPlanetDetails(planet)" [planet]="planet"></app-card>
+    <div class="input">
+      <app-input (searchPlanet)="inputAction($event)"></app-input>
     </div>
-  </div>
+
+    <div class="paginator">
+      <app-paginator [length]="data?.count || 0" (onPagerAction)="pagerAction($event)"></app-paginator>
+    </div>
+
+    <div class="cards-container">
+      <div *ngFor="let planet of planets" class="card">
+        <app-card (click)="viewPlanetDetails(planet)" [planet]="planet"></app-card>
+      </div>
+    </div>
+
 </div>
