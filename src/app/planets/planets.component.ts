@@ -30,55 +30,73 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.searchPlanets('', null)
-    .then(() => {
-        this.event = {
-          pageSize: this.paginator.getInitialPageSize(),
-          pageIndex: 0,
-          previousPageIndex: null,
-          length: this.data.count
-        }
-    })
+    .then(() => this.firstPage())
   }
 
   inputAction(text: string): void {
     this.searchPlanets(text, null)
     .then(() => {
+      this.firstPage(this.event.pageSize)
       if (this.data.next) {
         this.loadMore(this.event)
-        this.paginator.resetPager()
       }
     })
 
+  }
+
+  private firstPage(pageSize?: number): void {
+    this.event = {
+      pageSize: pageSize || this.paginator.getInitialPageSize(),
+      pageIndex: 0,
+      previousPageIndex: null,
+      length: this.data.count
+    }
+    this.paginator.resetPager()
   }
 
   pagerAction($event: PageEvent): void {
     if ($event.pageSize > this.data.count) {
       $event.pageSize = this.data.count
     }
+    const itemsToSkip = $event.pageIndex * $event.pageSize
+    const itemsLoaded = this.allLoadedPlanets.length
 
     if ($event.pageSize !== this.event.pageSize) {
-      if ($event.pageSize > this.allLoadedPlanets.length) {
+      // IF ITEMS PER PAGE CHANGE
+      if ($event.pageSize > itemsLoaded) {
         this.loadMore($event)
-      } else if($event.pageSize <= this.allLoadedPlanets.length) {
-        this.calcUiPlanets($event.pageSize)
+      } else if($event.pageSize <= itemsLoaded) {
+        this.calcUiPlanets($event.pageSize, itemsToSkip)
+      }
+    } else {
+      // IF SLIDE RIGHT/LEFT
+      if (itemsToSkip >= itemsLoaded) {
+        console.log('loadMore', itemsToSkip)
+        this.loadMore($event)
+      } else if($event.pageSize === 25 && itemsLoaded/$event.pageSize <= 2) {
+        console.log('loadMore', itemsToSkip)
+        this.loadMore($event)
+      } else if (itemsToSkip < itemsLoaded) {
+        console.log('calcUi', itemsToSkip)
+        this.calcUiPlanets($event.pageSize, itemsToSkip)
       }
     }
     this.event = $event
   }
 
-  private calcUiPlanets(pageSize: number): void {
-    this.uiPlanets = this.allLoadedPlanets.filter(
-      (planet: Planet, index: number) => index < pageSize
-    )
+  private calcUiPlanets(pageSize: number, itemsToSkip: number = 0): void {
+    this.uiPlanets = this.allLoadedPlanets
+    .filter((planet: Planet, index: number) => index >= itemsToSkip)
+    .filter((planet: Planet, index: number) => index < pageSize)
   }
 
   private loadMore($event: PageEvent): Promise<any> {
     return new Promise(resolve => {
 
       const requests = []
-      const numOfPages = this.numberOfPagesToLoad($event.pageSize)
+      const numOfPages = this.getNumberOfPages($event.pageSize, $event.pageIndex + 1)
       let startPage = Number(this.data.next.slice(-1))
-
+      console.log(numOfPages, startPage)
       for(let i = startPage; i <= numOfPages; i++) {
         let url = this.data.next.replace(/.$/,`${i}`)
         let nextRequest = this.plnService.searchPlanets(null,url)
@@ -92,12 +110,12 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
     })
   }
 
-  private numberOfPagesToLoad(pageSize: number) {
+  private getNumberOfPages(pageSize: number, pageIndex: number) {
     const planetsCount = 10
     if (pageSize > this.data.count) {
       pageSize = this.data.count
     }
-    return Math.ceil(pageSize/planetsCount)
+    return Math.ceil(pageSize*pageIndex/planetsCount)
   }
 
   private searchPlanets(text?: string, url?: string): Promise<any> {
@@ -123,13 +141,10 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
       forkJoin(requests)
       .subscribe((data: PlanetsResponse[]) => {
         this.data = data[data.length -1]
-
         data.forEach((response: PlanetsResponse) => {
           this.allLoadedPlanets = [...this.allLoadedPlanets, ...response.results]
         })
-
-        this.calcUiPlanets(this.getPageSize())
-
+        this.calcUiPlanets(this.getPageSize(), this.event.pageIndex * this.event.pageSize)
         resolve()
       })
     })
