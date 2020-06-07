@@ -8,7 +8,7 @@ import { PlanetsResponse, Planet } from './planets.interface';
   providedIn: 'root'
 })
 export class PlanetsService {
-  private readonly base = 'http://0.0.0.0:8080/api/planets/'
+  readonly base = 'http://0.0.0.0:8080/api/planets/'
 
   activePlanet: BehaviorSubject<any> = new BehaviorSubject(null)
 

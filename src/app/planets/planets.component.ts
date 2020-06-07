@@ -3,7 +3,7 @@ import {Router} from '@angular/router'
 import { PlanetsService } from './planets.service';
 import { PlanetsResponse, Planet } from './planets.interface';
 import { PageEvent } from '@angular/material/paginator';
-import { Subject, forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { PaginatorComponent } from '../common/pagination/paginator.component';
 
 @Component({
@@ -65,19 +65,18 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
       // IF ITEMS PER PAGE CHANGE
       if ($event.pageSize > itemsLoaded) {
         this.loadMore($event)
-      } else if($event.pageSize <= itemsLoaded) {
+      } else if ($event.pageSize === 25 && itemsLoaded/$event.pageSize <= 2) {
+        this.loadMore($event)
+      } else if ($event.pageSize <= itemsLoaded) {
         this.calcUiPlanets($event.pageSize, itemsToSkip)
       }
     } else {
       // IF SLIDE RIGHT/LEFT
       if (itemsToSkip >= itemsLoaded) {
-        console.log('loadMore', itemsToSkip)
         this.loadMore($event)
       } else if($event.pageSize === 25 && itemsLoaded/$event.pageSize <= 2) {
-        console.log('loadMore', itemsToSkip)
         this.loadMore($event)
       } else if (itemsToSkip < itemsLoaded) {
-        console.log('calcUi', itemsToSkip)
         this.calcUiPlanets($event.pageSize, itemsToSkip)
       }
     }
@@ -92,19 +91,15 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
 
   private loadMore($event: PageEvent): Promise<any> {
     return new Promise(resolve => {
-
       const requests = []
       const numOfPages = this.getNumberOfPages($event.pageSize, $event.pageIndex + 1)
       let startPage = Number(this.data.next.slice(-1))
-      console.log(numOfPages, startPage)
-      for(let i = startPage; i <= numOfPages; i++) {
+
+      for (let i = startPage; i <= numOfPages; i++) {
         let url = this.data.next.replace(/.$/,`${i}`)
         let nextRequest = this.plnService.searchPlanets(null,url)
-
         requests.push(nextRequest)
       }
-      console.log(requests)
-
       this.searchPlanetsFork(requests)
       .then(() => resolve())
     })
@@ -115,7 +110,11 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
     if (pageSize > this.data.count) {
       pageSize = this.data.count
     }
-    return Math.ceil(pageSize*pageIndex/planetsCount)
+    let totalItems = pageSize*pageIndex
+    if (totalItems > this.data.count) {
+      totalItems = this.data.count
+    }
+    return Math.ceil(totalItems/planetsCount)
   }
 
   private searchPlanets(text?: string, url?: string): Promise<any> {
@@ -126,7 +125,6 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
           this.data = data
           this.allLoadedPlanets = data.results
           this.calcUiPlanets(this.getPageSize())
-
           resolve()
       })
     })
@@ -151,9 +149,11 @@ export class PlanetsComponent implements OnInit, AfterViewInit {
   }
 
   viewPlanetDetails(planet: Planet): void {
-    const planetId = planet.url.split('/')[5]
-    this.router.navigate([`planet/${planetId}`])
+    const id = planet.url // Allows to search by id if no planet
+      .replace(this.plnService.base, '')
+      .replace('/', '')
 
+    this.router.navigate([`planet/${id}`])
     this.plnService.activePlanet.next(planet)
   }
 
