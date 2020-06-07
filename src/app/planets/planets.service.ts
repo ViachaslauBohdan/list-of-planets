@@ -10,15 +10,9 @@ import { PlanetsResponse, Planet } from './planets.interface';
 export class PlanetsService {
   private readonly base = 'http://0.0.0.0:8080/api/planets/'
 
-  planetsSharedData: BehaviorSubject<any> = new BehaviorSubject({})
   activePlanet: BehaviorSubject<any> = new BehaviorSubject(null)
 
-
   constructor(private http: HttpClient) { }
-
-  buildUrl(text: string, page: string | number): string {
-    return `${this.base}?search=${text}&page=${page}`
-  }
 
   getPlanet(id: string) {
     return this.http.get<Planet>(`${this.base}${id}`)

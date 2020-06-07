@@ -9,19 +9,20 @@ import { Planet } from '../planets.interface';
   styleUrls: ['./planet-details.component.sass']
 })
 export class PlanetDetailsComponent implements OnInit, OnDestroy {
+  private plnSubscription
   planet: Planet
+
+
   constructor(
     private route: ActivatedRoute,
     private plnService: PlanetsService
   ) { }
 
   ngOnInit(): void {
-    this.plnService.activePlanet.subscribe((planet:Planet) => {
-      console.log(planet)
-
+    this.plnSubscription = this.plnService.activePlanet
+    .subscribe((planet: Planet) => {
       this.planet = planet
     })
-
     if (!this.planet) {
       this.getPlanetById()
     }
@@ -36,7 +37,7 @@ export class PlanetDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // this.plnService.activePlanet.unsubscribe()
+    this.plnSubscription.unsubscribe()
   }
 
 }
