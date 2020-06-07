@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { PaginatorComponent } from './common/pagination/paginator.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { PlanetDetailsComponent } from './planets/planet-details/planet-details.component';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { PlanetDetailsComponent } from './planets/planet-details/planet-details.
     FormsModule,
     MatCardModule,
     HttpClientModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

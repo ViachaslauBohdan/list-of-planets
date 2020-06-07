@@ -1,19 +1,20 @@
-<button routerLink="/">Back</button>
+<div class="pln-details-cnt">
+  <button routerLink="/" mat-raised-button>Back</button>
 
-<mat-card class="example-card">
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>Shiba Inu</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-  </mat-card-header>
-  <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
-  <mat-card-content>
-    <p>
-     Planet name - {{planet?.name}}
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
-  </mat-card-actions>
-</mat-card>
+  <mat-card class="pln-card">
+    <mat-card-header>
+      <mat-card-title>{{planet?.name}}</mat-card-title>
+      <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+    </mat-card-header>
+    <mat-card-content>
+      <ul>
+        <li>Rotation period - {{planet?.rotation_period}}</li>
+        <li>Diameter - {{planet?.diameter}}</li>
+        <li>Climate - {{planet?.climate}}</li>
+        <li>Population - {{planet?.population}}</li>
+        <li>Terrain - {{planet?.terrain}}</li>
+        <li>Surface water - {{planet?.surface_water}}</li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</div>

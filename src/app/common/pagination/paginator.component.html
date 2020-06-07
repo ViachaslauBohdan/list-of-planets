@@ -1,6 +1,9 @@
-<mat-paginator [length]="length"
-              [pageSize]="initialPageSize"
-              [pageSizeOptions]="[5, 10, 25, 100]"
-              (page)=pagerAction($event)
-              #paginator>
-</mat-paginator>
+  <mat-paginator
+                style="background-color: #fafafa;"
+                [length]="length"
+                [pageSize]="initialPageSize"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+                (page)=pagerAction($event)
+                #paginator>
+  </mat-paginator>
+
