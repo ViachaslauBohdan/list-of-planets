@@ -9,7 +9,7 @@
     </div>
 
     <div class="cards-container">
-      <div *ngFor="let planet of planets" class="card">
+      <div *ngFor="let planet of uiPlanets" class="card">
         <app-card (click)="viewPlanetDetails(planet)" [planet]="planet"></app-card>
       </div>
     </div>

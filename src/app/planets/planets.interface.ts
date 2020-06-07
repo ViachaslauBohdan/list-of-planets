@@ -17,7 +17,7 @@ export interface Planet {
 
 export interface PlanetsResponse {
   readonly count: number
-  readonly next: string | null
-  readonly previous: string | null
+  next: string | null
+  previous: string | null
   readonly results: Planet[]
 }

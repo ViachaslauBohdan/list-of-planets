@@ -12,12 +12,16 @@ export class PaginatorComponent implements OnInit {
   @Input() length: number
   @Output() onPagerAction = new EventEmitter<PageEvent>()
 
-  private skipAction: boolean = false;
+  public initialPageSize = 10
+  private skipAction: boolean = false
   private event: PageEvent
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+  getInitialPageSize(): number {
+    return this.initialPageSize
   }
   pagerAction($event):void {
     this.event = $event

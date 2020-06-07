@@ -16,9 +16,10 @@ export class PlanetsService {
 
   constructor(private http: HttpClient) { }
 
-  getPlanets() {
-    return this.http.get<PlanetsResponse>(this.base)
+  buildUrl(text: string, page: string | number): string {
+    return `${this.base}?search=${text}&page=${page}`
   }
+
   getPlanet(id: string) {
     return this.http.get<Planet>(`${this.base}${id}`)
   }
