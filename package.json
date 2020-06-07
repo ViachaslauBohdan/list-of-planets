@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "serve": "ng serve",
+    "start.backend": "docker rm swapi && docker run --name swapi -it -p 8080:8080 softwareplant/swapi:latest",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
